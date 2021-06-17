@@ -6,7 +6,7 @@ Michel Alves
 Limpa a memória
 
 ``` r
-rm(list = ls())
+#rm(list = ls())
 ```
 
 Carrega as bibliotecas
@@ -99,13 +99,10 @@ library(srvyr)
 Importa os microdados
 
 ``` r
-pnadc_dat<- get_pnadc(2020, 
-                      quarter = 1, 
-                      interview = NULL, 
+pnadc_dat<- get_pnadc(2020,
+                      quarter = 1,
                       vars=c("UF", "V1023", "Capital", "VD4002", "V2007", "V2009", "VD3004", "VD3005", "V2010", "V1027", "V1028"),
-                      labels = T, 
-                      design = T, 
-                      savedir = tempdir())
+                      design = TRUE)
 ```
 
 Transforma a base de dados num objeto survey
@@ -129,5 +126,16 @@ Desocupacao_cor2<- pivot_wider(Desocupacao_cor2, names_from = "VD4002", values_f
 Desocupacao_cor2$PEA = Desocupacao_cor2$`Pessoas ocupadas`+  Desocupacao_cor2$`Pessoas desocupadas`
 Desocupacao_cor2$'Taxa de desocupação' = ((Desocupacao_cor2$`Pessoas desocupadas`/ Desocupacao_cor2$PEA)*100)
 Desocupacao_cor2<- rename(Desocupacao_cor2, "Cor ou raça" = "V2010")
-view(Desocupacao_cor2)
+#view(Desocupacao_cor2)
+Desocupacao_cor2
 ```
+
+    ## # A tibble: 6 x 5
+    ##   `Cor ou raça` `Pessoas ocupada~ `Pessoas desocupad~     PEA `Taxa de desocupa~
+    ##   <fct>                     <dbl>               <dbl>   <dbl>              <dbl>
+    ## 1 Branca                  892416.             114331.  1.01e6               11.4
+    ## 2 Preta                   371289.              71790.  4.43e5               16.2
+    ## 3 Amarela                   2243.                  0   2.24e3                0  
+    ## 4 Parda                  1323370.             218552.  1.54e6               14.2
+    ## 5 Indígena                  2995.                  0   2.99e3                0  
+    ## 6 Ignorado                  1055.                  0   1.05e3                0
